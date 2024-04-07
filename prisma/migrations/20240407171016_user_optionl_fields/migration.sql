@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "role" DROP NOT NULL,
+ALTER COLUMN "role" SET DEFAULT 'user',
+ALTER COLUMN "confirmed" DROP NOT NULL,
+ALTER COLUMN "confirmed" SET DEFAULT false;

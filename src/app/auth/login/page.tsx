@@ -1,7 +1,12 @@
+import LoginForm from "@/components/auth/LoginForm";
+import { Button, Card, Input, Label } from "@/components/ui/index";
+
 function LoginPage() {
   return (
-    <div>LoginPage</div>
-  )
+    <div className="h-screen flex justify-center items-center">
+      <LoginForm />
+    </div>
+  );
 }
 
-export default LoginPage
+export default LoginPage;
