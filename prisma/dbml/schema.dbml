@@ -17,13 +17,14 @@ Table User {
 Table Product {
   id Int [pk, increment]
   name String [not null]
-  description String [not null]
+  description String
   price Float [not null]
-  image String [not null]
+  stock Int [default: 0]
+  image String [not null, default: 'https://via.placeholder.com/150']
   categoryId Int
   category Category
-  authorId Int
-  author User
+  authorId Int [not null]
+  author User [not null]
   createdAt DateTime [default: `now()`, not null]
 }
 

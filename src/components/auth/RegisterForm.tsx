@@ -5,6 +5,8 @@ import { Button, Card, Input, Label } from "@/components/ui/index";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "@/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const {
@@ -15,8 +17,9 @@ export default function RegisterForm() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = handleSubmit(async (data) => {
+  const router = useRouter();
 
+  const onSubmit = handleSubmit(async (data) => {
     const response = await fetch("/api/auth/signup", {
       method: "POST",
       headers: {
@@ -24,7 +27,20 @@ export default function RegisterForm() {
       },
       body: JSON.stringify(data),
     });
-    const result = await response.json();
+
+    if (!response.ok) {
+      const data = await response.json();
+      return;
+    }
+
+    const resSignIn = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+
+    router.push("/dashboard");
+    router.refresh();
   });
 
   return (
@@ -39,7 +55,11 @@ export default function RegisterForm() {
         )}
 
         <Label>Last name</Label>
-        <Input type="text" placeholder="Your last name" {...register("lastname")} />
+        <Input
+          type="text"
+          placeholder="Your last name"
+          {...register("lastname")}
+        />
         {errors.lastname && (
           <p className="text-xs text-red-500">{errors.lastname.message}</p>
         )}

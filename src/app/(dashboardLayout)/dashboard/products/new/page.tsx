@@ -3,24 +3,34 @@ import { Button, Input, Label } from "@/components/ui";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createProductSchema } from "@/schemas/productSchema";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function ProductPage() {
-  const { register, handleSubmit, formState: {errors} } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(createProductSchema),
   });
 
-  const onSubmit = handleSubmit(async data => {
+  const router = useRouter();
+
+  const onSubmit = handleSubmit(async (data) => {
     const res = await fetch("/api/products", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
-      }
-    })
+      },
+    });
 
     const product = await res.json();
-    console.log(product);
 
+    router.push(`/dashboard/products`);
+    router.refresh();
+    toast.success("Producto creado");
   });
 
   return (
