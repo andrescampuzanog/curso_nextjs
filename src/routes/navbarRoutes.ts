@@ -2,16 +2,16 @@ import { FolderIcon, HomeIcon, UserIcon, UserGroupIcon } from "@heroicons/react/
 
 export const navbarRoutes = [
     {
+        href: '/products',
+        text: "Products",
+    },
+    {
         href: '/auth/login',
         text: "Login",
-        auth: false,
-        icon: FolderIcon,
     },
     {
         href: '/auth/register',
         text: "Register",
-        auth: false,
-        icon: FolderIcon,
     },
 ]
 
